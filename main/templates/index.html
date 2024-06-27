@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="chat-log">
+      {% for m in mes %}
+        {{ m.text }} <br />
+      {% endfor %}
+    </div>
+
+    <input id="in" type="text" placeholder="message" />
+    <button id="send">send</button>
+    <script>
+      let url = `ws://${window.location.host}/ws/socket-server`
+      const chatSocket = new WebSocket(url)
+      document.getElementById('send').addEventListener('click', () => {
+        let inp = document.getElementById('in').value
+      
+        chatSocket.send(
+          JSON.stringify({
+            message: inp
+          })
+        )
+      })
+      
+      chatSocket.onmessage = function (e) {
+        const data = e.data
+        document.querySelector('#chat-log').innerHTML = data + '<br>' + document.querySelector('#chat-log').innerHTML
+      }
+    </script>
+  </body>
+</html>
