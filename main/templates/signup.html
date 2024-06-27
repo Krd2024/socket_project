@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+{% block content %}
+  <div class="email">
+    <h2>Sign Up</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="button" type="submit">Поехали</button>
+    </form>
+  </div>
+  <style>
+    .email {
+      width: 40vw;
+      padding: 25px;
+      text-align: center;
+      line-height: 1;
+    }
+    .button {
+      width: fit-content;
+      padding: 5px;
+      height: 40px;
+      background-color: beige;
+    }
+  </style>
+{% endblock %}

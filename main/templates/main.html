@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  {% comment %} {% include 'wrapper/aside.html' %} {% endcomment %}
+  <body>
+    <form id="search-form">
+      <input type="search" autocomplete="off" name="q" id="search-input" placeholder="Найти чат" value="" />
+      <button type="submit">Search</button>
+    </form>
+    <a href="{% url 'signup' %}"><span>Регистрация</span></a>
+
+    <div class="body">
+      <div class="message">
+        {% include 'list_rooms.html' %}
+      </div>
+
+      <div class="content">
+        {% block content %}
+
+        {% endblock %}
+      </div>
+    </div>
+  </body>
+  <style>
+    .content {
+      background-color: antiquewhite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid black;
+    }
+    .message {
+      border: 1px solid black;
+    }
+  </style>
+</html>

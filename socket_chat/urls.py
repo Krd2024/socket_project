@@ -18,7 +18,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from django.contrib import admin
+from django.urls import path, include
+from channels.routing import ProtocolTypeRouter
+from django.core.asgi import get_asgi_application
+
+django_asgi_app = get_asgi_application()
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("main.urls")),
 ]
+from channels.auth import AuthMiddlewareStack
+
+application = ProtocolTypeRouter(
+    {
+        "http": get_asgi_application(),  # используем обычное Django приложение для HTTP
+        "websocket": AuthMiddlewareStack(
+            django_asgi_app  # используем наше ASGI приложение для WebSocket
+        ),
+    }
+)
