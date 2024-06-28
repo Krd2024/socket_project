@@ -22,6 +22,17 @@ class Room(models.Model):
     def __str__(self):
         return self.name
 
+    def add_user(self, user):
+        self.users.add(user)
+
+    def remove_user(self, user):
+        self.users.remove(user)
+
+    def add_message(self, user, text):
+        message = Message.objects.create(user=user, text=text)
+        self.messages.add(message)
+        return message
+
 
 class Message(models.Model):
     user = models.ForeignKey(

@@ -5,10 +5,15 @@
     <input id="chat-message-input" type="text" size="30" /><br />
     <input id="chat-message-submit" type="button" value="Send" />
     {{ room_name|json_script:'room-name' }}
+    {{ request.user.username|json_script:'user-name' }}
+    {{ request.user }}
+
     <script>
       const roomName = JSON.parse(document.getElementById('room-name').textContent)
+      const username = JSON.parse(document.getElementById('user-name').textContent)
       
-      let url = `ws://${window.location.host}/ws/socket-server/` + roomName + '/'
+      const url = `ws://${window.location.host}/ws/socket-server/${roomName}/?username=${username}`
+      
       const chatSocket = new WebSocket(url)
       
       chatSocket.onmessage = function (e) {
