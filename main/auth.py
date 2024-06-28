@@ -17,11 +17,11 @@ from main.models import User
 
 def logoutPage(request):
     logout(request)
-    return redirect("index")
+    return redirect("main")
 
 
 def login_in(request):
-    return render(request, "login.html")
+    return render(request, "login_in.html")
 
 
 def signup(request):
@@ -31,7 +31,7 @@ def signup(request):
         # form = ProfileEditForm(request.POST)
         if form.is_valid():
             user = form.save()
-            return redirect("login")
+            return redirect("login_in")
     else:
         form = UserRegisterForm()
     return render(request, "signup.html", {"form": form})
@@ -52,14 +52,15 @@ class CustomLoginView(LoginView):
         if user is not None:
             # Если пользователь существует и аутентификация прошла успешно, войти в систему
             login(request, user)
-            return redirect(
-                f"/user/{username}"
-                # f"/user/"
-            )
+            # return redirect(
+            #     f"/user/{username}"
+            #     # f"/user/"
+            # )
+            return redirect("main")
         else:
             # Если аутентификация не удалась, показать ошибку входа
             return render(
                 request,
-                "login.html",
+                "login_in.html",
                 {"error_message": "Неправильный логин или пароль"},
             )

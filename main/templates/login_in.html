@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+{% block content %}
+  <body>
+    <form action="/login/" method="post">
+      {% csrf_token %}
+      <label for="username">Логин:</label><br />
+      <input type="text" id="username" name="username" /><br />
+      <label for="password">Пароль:</label><br />
+      <input type="password" id="password" name="password" /><br /><br />
+      <input type="submit" value="Войти" />
+    </form>
+  </body>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    form {
+      margin: 1vw auto;
+      padding: 0.5em;
+      border: 1px solid #ccc;
+      max-width: 30vw;
+    }
+    
+    label {
+      font-weight: bold;
+    }
+    
+    input[type='text'],
+    input[type='password'],
+    input[type='submit'] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    
+    input[type='submit'] {
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+    
+    input[type='submit']:hover {
+      background-color: #45a049;
+    }
+  </style>
+{% endblock %}

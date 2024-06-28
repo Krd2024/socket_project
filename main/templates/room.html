@@ -1,9 +1,8 @@
-{% comment %} {% extends 'main.html' %}
+{% extends 'main.html' %}
 {% block content %}
-  {% endcomment %}
   <body class="body_rooms">
     <textarea id="chat-log" cols="50" rows="20"></textarea><br />
-    <input id="chat-message-input" type="text" size="100" /><br />
+    <input id="chat-message-input" type="text" size="30" /><br />
     <input id="chat-message-submit" type="button" value="Send" />
     {{ room_name|json_script:'room-name' }}
     <script>
@@ -41,6 +40,4 @@
       }
     </script>
   </body>
-
-  {% comment %}
-{% endblock %} {% endcomment %}
+{% endblock %}

@@ -6,17 +6,22 @@
     <title>Document</title>
   </head>
   {% comment %} {% include 'wrapper/aside.html' %} {% endcomment %}
-  <body>
-    <form id="search-form">
+  <body class="body">
+    {% comment %} <form id="search-form">
       <input type="search" autocomplete="off" name="q" id="search-input" placeholder="Найти чат" value="" />
       <button type="submit">Search</button>
-    </form>
-    <a href="{% url 'signup' %}"><span>Регистрация</span></a>
+    </form> {% endcomment %}
 
-    <div class="body">
-      <div class="message">
-        {% include 'list_rooms.html' %}
+    <div class="box">
+      <div class="menu">
+        {% include 'menu.html' %}
       </div>
+      <span></span>
+      {% if request.user.is_authenticated %}
+        <div class="chat">
+          {% include 'choce_chat.html' %}
+        </div>
+      {% endif %}
 
       <div class="content">
         {% block content %}
@@ -27,13 +32,18 @@
   </body>
   <style>
     .content {
+      width: 90%;
+    }
+    .body {
+      padding: 0.3em;
       background-color: antiquewhite;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      block-size: auto;
       border: 1px solid black;
+      width: 90%;
     }
-    .message {
+    .menu {
+      padding: 0.3em;
       border: 1px solid black;
     }
   </style>

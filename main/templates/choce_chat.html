@@ -1,0 +1,20 @@
+{% comment %} {% extends 'main.html' %} {% endcomment %}
+{% comment %}
+{% block title %}
+  Main Page
+{% endblock %} {% endcomment %}
+
+{% comment %} {% block content %}
+  {% endcomment %}
+  <h1>Чат</h1>
+  <p>Выбор чата:</p>
+  <ul>
+    <li>
+      <a href="{% url 'room' 'room1' %}">Room 1</a>
+    </li>
+    <li>
+      <a href="{% url 'room' 'room2' %}">Room 2</a>
+    </li>
+  </ul>
+  {% comment %}
+{% endblock %} {% endcomment %}
