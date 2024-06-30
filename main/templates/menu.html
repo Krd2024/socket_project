@@ -2,6 +2,8 @@
   {% if request.user.is_authenticated %}
     <h3><a href="{% url 'user_profile' request.user.username %}"><span class="a">{{ request.user.username }}</span></a></h3>
     <hr />
+    <h3>Выбор комнаты</h3>
+    <div></div>
     <h3><a class="a" href="{% url 'logout' %}"><span>Выход</span></a></h3>
   {% else %}
     <h3><a class="a" href="{% url 'signup' %}"><span>Регистрация</span></a></h3>

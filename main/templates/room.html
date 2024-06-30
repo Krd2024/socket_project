@@ -1,12 +1,25 @@
 {% extends 'main.html' %}
 {% block content %}
   <body class="body_rooms">
+    <div id="list_rooms"></div>
+
     <textarea id="chat-log" cols="50" rows="20"></textarea><br />
+
     <input id="chat-message-input" type="text" size="30" /><br />
+
     <input id="chat-message-submit" type="button" value="Send" />
+
     {{ room_name|json_script:'room-name' }}
     {{ request.user.username|json_script:'user-name' }}
+    {% comment %} {{ rooms|json_script:'rooms-list' }} {% endcomment %}
+
     {{ request.user }}
+    <style>
+      #chat-log {
+        font-size: 20px;
+        color: brown;
+      }
+    </style>
 
     <script>
       const roomName = JSON.parse(document.getElementById('room-name').textContent)
@@ -18,7 +31,17 @@
       
       chatSocket.onmessage = function (e) {
         const data = JSON.parse(e.data)
-        document.querySelector('#chat-log').value += data.message + '\n'
+        const textarea = document.querySelector('#chat-log')
+        textarea.value = data.message + '\n\r' + data.dict.room
+        document.querySelector('#list_rooms').innerHTML = data
+        console.log(data)
+        textarea.style.backgroundColor = '#f0f0f0' // Цвет фона
+        textarea.style.color = '#333' // Цвет текста
+        textarea.style.border = '2px solid #ccc' // Граница
+        textarea.style.padding = '10px' // Внутренний отступ
+        textarea.style.fontFamily = 'Arial, sans-serif' // Шрифт
+        textarea.style.fontSize = '20px' // Размер шрифта
+        textarea.style.resize = 'none' // Отключение изменения размера
       }
       
       chatSocket.onclose = function (e) {

@@ -1,5 +1,5 @@
 from django import views
-from .views import main, room, index, user_profile
+from .views import main, room, user_profile
 from django.contrib import admin
 from django.urls import include, path
 from main import auth

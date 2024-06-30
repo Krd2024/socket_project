@@ -41,16 +41,13 @@ class CustomLoginView(LoginView):
 
     def post(self, request):
         print(request.GET, "<<<<<<< ========")
-        # Обработка отправленной формы
         username = request.POST.get("username")
         password = request.POST.get("password")
-        # print(username, password)
 
         # Проверка аутентификации пользователя
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            # Если пользователь существует и аутентификация прошла успешно, войти в систему
             login(request, user)
             # return redirect(
             #     f"/user/{username}"
@@ -58,7 +55,6 @@ class CustomLoginView(LoginView):
             # )
             return redirect("main")
         else:
-            # Если аутентификация не удалась, показать ошибку входа
             return render(
                 request,
                 "login_in.html",

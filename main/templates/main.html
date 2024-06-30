@@ -22,12 +22,11 @@
           {% include 'choce_chat.html' %}
         </div>
       {% endif %}
+    </div>
+    <div class="content">
+      {% block content %}
 
-      <div class="content">
-        {% block content %}
-
-        {% endblock %}
-      </div>
+      {% endblock %}
     </div>
   </body>
   <style>

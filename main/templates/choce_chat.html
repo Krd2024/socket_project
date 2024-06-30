@@ -8,13 +8,29 @@
   {% endcomment %}
   <h1>Чат</h1>
   <p>Выбор чата:</p>
-  <ul>
+  {% comment %} <ul>
     <li>
-      <a href="{% url 'room' 'room1' %}">Room 1</a>
+      <a href="{% url 'room' room.name %}">Room: {{ room.name }}</a>
     </li>
     <li>
       <a href="{% url 'room' 'room2' %}">Room 2</a>
     </li>
-  </ul>
+  </ul> {% endcomment %}
   {% comment %}
 {% endblock %} {% endcomment %}
+
+<body>
+  <h1>Room List</h1>
+  {% for room in rooms %}
+    <h2><a href="{% url 'room' room.name %}">Room: {{ room.name }}</a></h2>
+    <ul>
+      {% for message in room.prefetched_messages %}
+        <li>
+          <strong>Message:</strong> {{ message.text }}<br />
+          <strong>User:</strong> {{ message.user.username }}<br />
+          <strong>Created:</strong> {{ message.created }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+</body>
