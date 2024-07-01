@@ -1,36 +1,29 @@
-{% comment %} {% extends 'main.html' %} {% endcomment %}
-{% comment %}
-{% block title %}
-  Main Page
-{% endblock %} {% endcomment %}
-
-{% comment %} {% block content %}
-  {% endcomment %}
-  <h1>Чат</h1>
-  <p>Выбор чата:</p>
-  {% comment %} <ul>
-    <li>
-      <a href="{% url 'room' room.name %}">Room: {{ room.name }}</a>
-    </li>
-    <li>
-      <a href="{% url 'room' 'room2' %}">Room 2</a>
-    </li>
-  </ul> {% endcomment %}
-  {% comment %}
-{% endblock %} {% endcomment %}
-
-<body>
-  <h1>Room List</h1>
+<body class="body-choice-chat">
+  <a href="{% url 'main' %}"><h3>Главная</h3></a>
   {% for room in rooms %}
     <h2><a href="{% url 'room' room.name %}">Room: {{ room.name }}</a></h2>
-    <ul>
+    <ul class="ul">
       {% for message in room.prefetched_messages %}
-        <li>
-          <strong>Message:</strong> {{ message.text }}<br />
-          <strong>User:</strong> {{ message.user.username }}<br />
-          <strong>Created:</strong> {{ message.created }}
-        </li>
+        <p>
+          <li>
+            <strong id="message">Message:</strong><br />{{ message.text }} <br />
+            <strong>User:</strong> {{ message.user.username }}<br />
+            <strong>Created:</strong> {{ message.created }}
+            <hr />
+          </li>
+        </p>
       {% endfor %}
     </ul>
   {% endfor %}
 </body>
+<style>
+  .body-choice-chat {
+    width: 20vw;
+  }
+  #message {
+    font-size: 25px;
+  }
+  .ul {
+    background-color: #f0f0f0;
+  }
+</style>

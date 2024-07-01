@@ -2,7 +2,7 @@
   {% if request.user.is_authenticated %}
     <h3><a href="{% url 'user_profile' request.user.username %}"><span class="a">{{ request.user.username }}</span></a></h3>
     <hr />
-    <h3>Выбор комнаты</h3>
+    {% comment %} <a href="{% url 'room' %}"><h3>Старт</h3></a> {% endcomment %}
     <div></div>
     <h3><a class="a" href="{% url 'logout' %}"><span>Выход</span></a></h3>
   {% else %}

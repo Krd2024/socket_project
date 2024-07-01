@@ -7,11 +7,6 @@
   </head>
   {% comment %} {% include 'wrapper/aside.html' %} {% endcomment %}
   <body class="body">
-    {% comment %} <form id="search-form">
-      <input type="search" autocomplete="off" name="q" id="search-input" placeholder="Найти чат" value="" />
-      <button type="submit">Search</button>
-    </form> {% endcomment %}
-
     <div class="box">
       <div class="menu">
         {% include 'menu.html' %}
@@ -31,7 +26,8 @@
   </body>
   <style>
     .content {
-      width: 90%;
+      width: 60%;
+      padding-left: 1em;
     }
     .body {
       padding: 0.3em;
@@ -41,9 +37,12 @@
       border: 1px solid black;
       width: 90%;
     }
+    .chat,
+    .menu {
+      width: 40%;
+    }
     .menu {
       padding: 0.3em;
-      border: 1px solid black;
     }
   </style>
 </html>
