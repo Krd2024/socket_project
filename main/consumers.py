@@ -79,11 +79,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # Join room group
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
-
         await self.accept()
 
         # показать чат при аервой загрузке
         dict_ = await get_room_mess(self.room_name)
+
         await self.send(text_data=json.dumps({"dict": dict_}))
 
     async def disconnect(self, close_code):

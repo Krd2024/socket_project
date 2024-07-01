@@ -15,9 +15,8 @@
     <script>
         const textarea = document.querySelector('.chatlog')
         let username = "{{request.user}}"
-      const url = `ws://${window.location.host}/ws/v2/chat/{{room_name}}/`
+      const url = `ws://${window.location.host}/ws/v2/chat/{{room_name}}/?username=${username}`
       const chatSocket = new WebSocket(url)
-      {% comment %} console.log(url) {% endcomment %}
       chatSocket.onmessage = async (e)=>{
         const data = e.data
         textarea.innerHTML += data

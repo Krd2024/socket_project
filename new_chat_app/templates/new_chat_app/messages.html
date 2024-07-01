@@ -1,6 +1,42 @@
 {% for mes in messages %}
   <div class="message">
-    <p>{{ mes.user }}</p>
-    <p>{{ mes.text }}</p>
+    <p class="user">{{ mes.user }}</p>
+    <p class="text">
+     <span> {{ mes.text }}</span>
+    </p>
+     <p class="date"> {{ mes.created | timesince}}</p>
   </div>
 {% endfor %}
+
+
+<style>
+
+  .message *{
+    margin: 0;
+    padding: 0;
+  }
+
+  .message{
+    background-color: #dfdfdf;
+    border-radius: 4px;
+    margin: 3px;
+    padding: 9px 3px;
+    font-size: large;
+  }
+  .message .user{
+    padding-left: 7px;
+    padding-bottom: 3px;
+  }
+  
+  .message .text{
+    font-size: medium;
+  
+    
+  }
+  .message .date{
+   font-size: small;
+   color: gray;
+    text-align:right;
+  }
+
+</style>

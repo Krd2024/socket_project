@@ -58,5 +58,5 @@ class Message(models.Model):
     class Meta:
         ordering = ["-created"]
 
-    def __str__(self):
-        return f"{self.user.username}: {self.text[:50]} ({self.created})"
+    # def __str__(self):
+    #     return f"{self.user.username}: {self.text[:50]} ({self.created})"
