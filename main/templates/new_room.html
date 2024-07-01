@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+{% block content %}
+  <body class="body_rooms">
+    <div id="list_rooms"></div>
+    <div class="chatlog"></div> <br />
+    <input id="chat-message-input" type="text" size="30" /><br />
+    <input id="chat-message-submit" type="button" value="Send" />
+
+    <style>
+      #chat-log {
+        font-size: 20px;
+        color: brown;
+      }
+    </style>
+    <script>
+        const textarea = document.querySelector('.chatlog')
+        let username = "{{request.user}}"
+      const url = `ws://${window.location.host}/ws/v2/chat/{{room_name}}/`
+      const chatSocket = new WebSocket(url)
+      {% comment %} console.log(url) {% endcomment %}
+      chatSocket.onmessage = async (e)=>{
+        const data = e.data
+        textarea.innerHTML += data
+
+      }
+      {% comment %} chatSocket.onmessage = function (e) {
+        if (data.message == undefined) {
+          textarea.value = data.dict.room
+        } else {
+          textarea.value = data.message + '\n\r' + data.dict.room
+        } {% endcomment %}
+    </script>
+  </body>
+
+  <style>
+    .chatlog{
+        width: 50vw;
+        min-width: 200px;
+        min-height: 200px;
+        background-color: white;
+    }
+  </style>
+{% endblock %}

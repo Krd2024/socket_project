@@ -57,15 +57,15 @@ def main(request, *args, **kwargs):
         context = {"rooms": rooms}
     except Exception as e:
         print(e, "--- def main():")
-
+    x = render(request, "main.html", context)
     # return render(request, "menu.html", context)
-    return render(request, "main.html", context)
+    return x
 
 
 def room(request, room_name):
     print(room_name)
     # mes = Message.objects.all().order_by("-created")[:5]
-    return render(request, "room.html", {"room_name": room_name})
+    return render(request, "new_room.html", {"room_name": room_name})
 
 
 def user_profile(request):
