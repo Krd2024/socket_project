@@ -13,12 +13,16 @@ from datetime import datetime
 from django.template.loader import render_to_string
 
 
-
-
 class ChatConsumer(WebsocketConsumer):
-    def connect(self):
+    def connect(self,  **kwargs):
         self.accept()
-        messages = Message.objects.all()        
+        room_id = self.scope["url_route"]["kwargs"]["room_id"]
+        # room_id = kwargs.get('roomid')
+        room_obj = Room.objects.get(id=room_id)
+
+        messages = room_obj.messages.all()
+       
+
         html_string = render_to_string("new_chat_app/messages.html", {"messages": messages})
         self.send(text_data=html_string)
 

@@ -7,7 +7,7 @@ from . import consumers
 websocket_urlpatterns = [
     # path("ws/socket-server/", consumers.ChatConsumer.as_asgi()),
     path(
-        "ws/v2/chat/<slug:room_name>/",
+        "ws/v2/chat/<slug:room_id>/",
         consumers.ChatConsumer.as_asgi(),
         name="new_chat",
     ),

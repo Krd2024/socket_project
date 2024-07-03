@@ -1,10 +1,15 @@
 {% extends 'main.html' %}
 {% block content %}
   <body class="body_rooms">
+    {{ room.id }}
+    {{ room.name }}
+
     <div id="list_rooms"></div>
     <div class="chatlog"></div> <br />
     <input id="chat-message-input" type="text" size="30" /><br />
     <input id="chat-message-submit" type="button" value="Send" />
+
+    <button><div id="roomId">{{ room.id }}</div></button>
 
     <style>
       #chat-log {
@@ -15,7 +20,7 @@
     <script>
         const textarea = document.querySelector('.chatlog')
         let username = "{{request.user}}"
-      const url = `ws://${window.location.host}/ws/v2/chat/{{room_name}}/?username=${username}`
+      const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/`
       const chatSocket = new WebSocket(url)
       chatSocket.onmessage = async (e)=>{
         const data = e.data
@@ -33,10 +38,12 @@
 
   <style>
     .chatlog{
+        padding: 0.5vw;
         width: 50vw;
         min-width: 200px;
         min-height: 200px;
         background-color: white;
+        border-radius: 5px;
     }
   </style>
 {% endblock %}
