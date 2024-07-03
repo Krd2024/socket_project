@@ -2,41 +2,46 @@
   <div class="message">
     <p class="user">{{ mes.user }}</p>
     <p class="text">
-     <span> {{ mes.text }}</span>
+      <span>{{ mes.text }}</span>
     </p>
-     <p class="date"> {{ mes.created | timesince}}</p>
+    <p class="date">{{ mes.created|timesince }}</p>
   </div>
 {% endfor %}
-
+<div>
+  {% for num in pages_range %}
+    {% if page_number != num %}
+      <a href="{% url 'room_page' room_id num %}">{{ num }}</a>
+      {% comment %} <a href="{% url 'room_page' room_id num %}">{{ num }}</a> {% endcomment %}
+    {% else %}
+      <span class="current">{{ num }}</span>
+    {% endif %}
+  {% endfor %}
+</div>
 
 <style>
-
-  .message *{
+  .message * {
     margin: 0;
     padding: 0;
   }
-
-  .message{
+  
+  .message {
     background-color: #dfdfdf;
     border-radius: 4px;
     margin: 3px;
     padding: 9px 3px;
     font-size: large;
   }
-  .message .user{
+  .message .user {
     padding-left: 7px;
     padding-bottom: 3px;
   }
   
-  .message .text{
+  .message .text {
     font-size: medium;
-  
-    
   }
-  .message .date{
-   font-size: small;
-   color: gray;
-    text-align:right;
+  .message .date {
+    font-size: small;
+    color: gray;
+    text-align: right;
   }
-
 </style>

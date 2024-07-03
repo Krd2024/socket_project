@@ -20,7 +20,8 @@
     <script>
         const textarea = document.querySelector('.chatlog')
         let username = "{{request.user}}"
-      const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/`
+      const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/page/{{num}}`
+      {% comment %} const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/` {% endcomment %}
       const chatSocket = new WebSocket(url)
       chatSocket.onmessage = async (e)=>{
         const data = e.data

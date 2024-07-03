@@ -11,5 +11,10 @@ websocket_urlpatterns = [
         consumers.ChatConsumer.as_asgi(),
         name="new_chat",
     ),
+    path(
+        "ws/v2/chat/<slug:room_id>/page/<slug:page_num>",
+        consumers.ChatConsumer.as_asgi(),
+        name="new_chat",
+    ),
     # re_path(r"ws/socket-server/(?P<room_name>\w+)/$", consumers.ChatConsumer.as_asgi()),
 ]
