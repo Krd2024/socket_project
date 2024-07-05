@@ -19,21 +19,46 @@
     </style>
     <script>
         const textarea = document.querySelector('.chatlog')
-        let username = "{{request.user}}"
-      const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/page/{{num}}`
+        let userId = "{{request.user.id}}"
+      const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/page/{{num}}?user_id=${userId}`
       {% comment %} const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/` {% endcomment %}
       const chatSocket = new WebSocket(url)
       chatSocket.onmessage = async (e)=>{
         const data = e.data
-        textarea.innerHTML += data
+        console.log(data)
+        if (data.message == undefined) {
+          textarea.innerHTML += data
+        } else {
+          textarea.innerHTML += data.message + data
+        }
+       // textarea.innerHTML += data.message + data
+        //textarea.innerHTML += data.message + data
 
       }
-      {% comment %} chatSocket.onmessage = function (e) {
-        if (data.message == undefined) {
-          textarea.value = data.dict.room
-        } else {
-          textarea.value = data.message + '\n\r' + data.dict.room
-        } {% endcomment %}
+
+        chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly')
+      }
+      
+      document.querySelector('#chat-message-input').focus()
+      document.querySelector('#chat-message-input').onkeyup = function (e) {
+        if (e.key === 'Enter') {
+          // enter, return
+          document.querySelector('#chat-message-submit').click()
+        }
+      }
+      
+      document.querySelector('#chat-message-submit').onclick = function (e) {
+        const messageInputDom = document.querySelector('#chat-message-input')
+        const message = messageInputDom.value
+        chatSocket.send(
+          JSON.stringify({
+            message: message
+          })
+        )
+        console.log(messageInputDom.value)
+        messageInputDom.value = ''
+      }
     </script>
   </body>
 

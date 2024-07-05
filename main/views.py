@@ -65,12 +65,17 @@ def main(request, *args, **kwargs):
 def room(request, room_id, num=None):
     print(room_id, "< --- room id: ")
     print(num, "< --- num page: ")
-    # mes = Message.objects.all().order_by("-created")[:5]
+    if num is None:
+        num = 1
     from django.shortcuts import get_object_or_404
 
     room = Room.objects.get(id=room_id)
     print(room)
-    return render(request, "new_room.html", {"room": room, "num": num})
+    return render(
+        request,
+        "new_room.html",
+        {"room": room, "num": num},
+    )
 
 
 def user_profile(request):
