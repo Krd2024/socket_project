@@ -3,9 +3,12 @@
   <body class="body_rooms">
     {{ room.id }}
     {{ room.name }}
+    {{ message }}
+    <div class="chatlog_live"></div> <br />
 
     <div id="list_rooms"></div>
     <div class="chatlog"></div> <br />
+
     <input id="chat-message-input" type="text" size="30" /><br />
     <input id="chat-message-submit" type="button" value="Send" />
 
@@ -19,20 +22,25 @@
     </style>
     <script>
         const textarea = document.querySelector('.chatlog')
+        const textarea_live = document.querySelector('.chatlog_live')
         let userId = "{{request.user.id}}"
       const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/page/{{num}}?user_id=${userId}`
       {% comment %} const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/` {% endcomment %}
       const chatSocket = new WebSocket(url)
       chatSocket.onmessage = async (e)=>{
+        console.log(e)
+        try {
+
+        const data = JSON.parse(e.data);
+        const message = data.message;
+        textarea_live.innerHTML += message + '<br>';
+      } catch (error) {
+
+        console.error('Error parsing JSON:', error);
+        // or display an error message to the user
         const data = e.data
-        console.log(data)
-        if (data.message == undefined) {
-          textarea.innerHTML += data
-        } else {
-          textarea.innerHTML += data.message + data
-        }
-       // textarea.innerHTML += data.message + data
-        //textarea.innerHTML += data.message + data
+        textarea.innerHTML += data
+      }
 
       }
 
@@ -56,7 +64,7 @@
             message: message
           })
         )
-        console.log(messageInputDom.value)
+        //console.log(messageInputDom.value)
         messageInputDom.value = ''
       }
     </script>
