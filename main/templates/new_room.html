@@ -21,30 +21,25 @@
       }
     </style>
     <script>
-        const textarea = document.querySelector('.chatlog')
-        const textarea_live = document.querySelector('.chatlog_live')
-        let userId = "{{request.user.id}}"
+      const textarea = document.querySelector('.chatlog')
+      const textarea_live = document.querySelector('.chatlog_live')
+      let userId = '{{request.user.id}}'
       const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/page/{{num}}?user_id=${userId}`
-      {% comment %} const url = `ws://${window.location.host}/ws/v2/chat/{{room.id}}/` {% endcomment %}
       const chatSocket = new WebSocket(url)
-      chatSocket.onmessage = async (e)=>{
-        console.log(e)
+      chatSocket.onmessage = async (e) => {
+        console.log(e, 'message')
         try {
-
-        const data = JSON.parse(e.data);
-        const message = data.message;
-        textarea_live.innerHTML += message + '<br>';
-      } catch (error) {
-
-        console.error('Error parsing JSON:', error);
-        // or display an error message to the user
-        const data = e.data
-        textarea.innerHTML += data
+          const data = JSON.parse(e.data)
+          const message = data.message
+          textarea_live.innerHTML += message + '<br>'
+        } catch (error) {
+          console.error('Error parsing JSON:', error)
+          const data = e.data
+          textarea.innerHTML += data
+        }
       }
-
-      }
-
-        chatSocket.onclose = function (e) {
+      
+      chatSocket.onclose = function (e) {
         console.error('Chat socket closed unexpectedly')
       }
       
@@ -71,13 +66,13 @@
   </body>
 
   <style>
-    .chatlog{
-        padding: 0.5vw;
-        width: 50vw;
-        min-width: 200px;
-        min-height: 200px;
-        background-color: white;
-        border-radius: 5px;
+    .chatlog {
+      padding: 0.5vw;
+      width: 50vw;
+      min-width: 200px;
+      min-height: 200px;
+      background-color: white;
+      border-radius: 5px;
     }
   </style>
 {% endblock %}

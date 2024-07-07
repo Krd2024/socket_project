@@ -14,12 +14,18 @@ from channels.db import database_sync_to_async
 from django.db.models import Prefetch
 from datetime import datetime
 from django.template.loader import render_to_string
+import asyncio
 
 LIMIT_OF_USERS_ON_PAGE = 5
+
+
 # f"room_{self.room_id}_page_{self.num}
+async def layer_group(): ...
 
 
 class ChatConsumer(WebsocketConsumer):
+
+    # @sync_to_async
     def connect(self, **kwargs):
         print("Connecting Connecting Connecting")
         self.accept()
@@ -29,10 +35,16 @@ class ChatConsumer(WebsocketConsumer):
         query_string = self.scope["query_string"].decode()
 
         self.room_group_name = f"chat_{self.room_id}"
+        # print(self.room_group_name, "<< ------------- room_group_name")
+        # print(self.channel_name, "<< ------------- self.channel_name")
 
-        self.channel_layer.group_add(self.room_group_name, self.channel_name)
+        # ------------  Проверить  -----------------------
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name, self.channel_name
+        )
+        # print(self.channel_layer.group_add, "< ---- self.channel_layer.group_add")
+
         query_params = parse_qs(query_string)
-
         self.user_id = query_params.get("user_id", [None])[0]
         room_obj = Room.objects.get(id=self.room_id)
         messages = room_obj.messages.all()
@@ -91,13 +103,16 @@ class ChatConsumer(WebsocketConsumer):
         self.send(text_data=html_string)
 
     def disconnect(self, code):
-        self.channel_layer.group_discard(self.room_group_name, self.channel_name)
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name, self.channel_name
+        )
+        # self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     def receive(self, text_data=None, bytes_data=None):
 
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
-        print(message, " < ------------------")
+        print(message, " < ------------------  message")
 
         room_id = self.scope["url_route"]["kwargs"]["room_id"]
 
@@ -108,26 +123,32 @@ class ChatConsumer(WebsocketConsumer):
         user.rooms.add(room)
         room.add_message(user, message)
         room.add_user(user)
-        # html_string_2 = render_to_string(
-        #     # "new_chat_app/live_messages.html", {"message": message}
-        #     "new_chat_app/messages.html",
-        #     {"message": message},
-        # )
-        # self.send(text_data=html_string_2)
-        self.channel_layer.group_send(
+        html_string_2 = render_to_string(
+            # "new_chat_app/live_messages.html", {"message": message}
+            "new_chat_app/messages.html",
+            {"message": message},
+        )
+        self.send(text_data=html_string_2)
+
+        # asyncio.run(self.send_group(message, self.room_group_name))
+
+        # ------------ Возвращает корутину !!! ------------------
+        self_ = async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {"type": "chat.message", "message": message},
         )
-        print(x)
+        print(self_)
+
+        # ------------------------------------------------------
+        # self.send(text_data=json.dumps({"message": message}))
+
+    def chat_message(self, event=None):
+        print("Chat message < ----------------------------------")
+        message = event["message"]
+
+        print(f"room name: {self.room_id} ")
+
         self.send(text_data=json.dumps({"message": message}))
-
-    # def chat_message(self, event=None):
-    #     print("Chat message < ------------------")
-    #     message = event["message"]
-
-    #     print(f"room name: {self.room_id} ")
-
-    #     self.send(text_data=json.dumps({"message": message}))
 
     # def chat_message(self, event=None):
     # print(event, "<------- event")
